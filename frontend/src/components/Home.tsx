@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../store/authSlice';
 import type { RootState, AppDispatch } from '../store/store';
@@ -8,13 +9,18 @@ const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
   const handleLogout = () => {
     dispatch(logout());
     navigate('/login');
   };
 
   if (!user) {
-    navigate('/login');
     return null;
   }
 
